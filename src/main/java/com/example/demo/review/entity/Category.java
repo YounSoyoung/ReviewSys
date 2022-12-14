@@ -1,0 +1,23 @@
+package com.example.demo.review.entity;
+
+import lombok.*;
+
+@Setter @Getter @ToString
+@AllArgsConstructor
+public class Category {
+    private String categoryId; //카테고리를 구별
+    private String area; //지역을 선택
+    private String address; //첫번째 상세 구역을 선택
+
+
+    public Category(){
+
+    }
+
+    public Category(String area, String address){
+        this();
+        this.area = area;
+        this.address = address;
+    }
+
+}
