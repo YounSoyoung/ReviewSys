@@ -18,13 +18,13 @@
     </delete>
 
     <select id="findAll" resultType="com.example.demo.review.entity.Review">
-        SELECT postId, userId, title, content, image, regDate
+        SELECT postId, userId, title, content, image, regDate, cID
         FROM tbl_post
         ORDER BY regDate
     </select>
 
     <select id="findOne" resultType="com.example.demo.review.entity.Review">
-        SELECT postId, userId, title, content, image, regDate
+        SELECT postId, userId, title, content, image, regDate, cID
         FROM tbl_post
         WHERE postId=#{postId}
     </select>

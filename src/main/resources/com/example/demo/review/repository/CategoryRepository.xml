@@ -11,6 +11,13 @@
         GROUP BY area
     </select>
 
+    <select id="showArea" resultType="com.example.demo.review.entity.Category">
+        SELECT area
+        FROM categoryt
+        GROUP BY area
+        HAVING area=#{area}
+    </select>
+
     <select id="findAddressList" resultType="com.example.demo.review.entity.Category">
         SELECT address
         FROM categoryt
@@ -20,7 +27,7 @@
     <select id="findCategory" resultType="com.example.demo.review.entity.Category">
         SELECT cID, area, address
         FROM categoryt
-        WHERE area=#{area} AND address=#{address}
+        WHERE address=#{address}
     </select>
 
 </mapper>

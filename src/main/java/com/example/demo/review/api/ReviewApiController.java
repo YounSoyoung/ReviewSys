@@ -2,7 +2,9 @@ package com.example.demo.review.api;
 
 import com.example.demo.review.dto.FindAllDTO;
 import com.example.demo.review.dto.ReviewDTO;
+import com.example.demo.review.entity.Category;
 import com.example.demo.review.entity.Review;
+import com.example.demo.review.service.CategoryService;
 import com.example.demo.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +13,16 @@ import org.springframework.http.ResponseEntity;
         import org.springframework.stereotype.Service;
         import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
-@RequestMapping("/api/reviews")
+@RequestMapping(value = "/api/reviews", produces = "application/json; charset=UTF-8")
 @RequiredArgsConstructor
 @CrossOrigin
 public class ReviewApiController {
     private final ReviewService service;
+    private final CategoryService categoryService;
 
     //리뷰 목록 전체 조회 요청
     @GetMapping
@@ -27,14 +32,55 @@ public class ReviewApiController {
         return service.findAllServ();
     }
 
+    //리뷰 작성 페이지를 들어가면 먼저 지역 목록들을 보여준다
+    @GetMapping("/new")
+    public List<Category> areas(){
+        log.info("/api/reviews/new GET category request");
+
+        return categoryService.findAreaServ();
+    }
+
+    //선택한 지역값을 반환
+    @PostMapping(value = "/new/{area}", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<?> area(@PathVariable String area){
+        log.info("/api/reviews/new/{} GET request", area);
+        if(area == null) return ResponseEntity.badRequest().build();
+
+        Category selectedArea = categoryService.showAreaServ(area);
+        if(selectedArea == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(selectedArea);
+    }
+//
+////    //지역 하나를 선택하면 해당하는 주소(구)들을 보여준다.
+    @GetMapping(value = "/new/{area}", produces = "application/json; charset=UTF-8")
+    public List<Category> addresses(@PathVariable String area){
+        log.info("/api/reviews/new/{} GET request", area);
+
+        return categoryService.findAddressServ(area);
+    }
+
+//    //주소를 선택하면 주소와 categoryID값을 가진 Category가 반환된다.
+    @GetMapping(value = "/new/{area}/{address}", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<?> category(@PathVariable String area, @PathVariable String address){
+        log.info("/api/reviews/new/{}/{} POST request", area, address);
+        if(area == null) return ResponseEntity.badRequest().build();
+
+        Category fullCategory = categoryService.findCategoryServ(address);
+        if(fullCategory == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(fullCategory);
+    }
+
+
     //리뷰 등록 요청
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Review newReview){
+    @PostMapping(value = "/new/{area}/{address}", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<?> create(@PathVariable String area, @PathVariable String address, @RequestBody Review newReview){
+
+        log.info("/api/reviews/{}/{} POST request!", area, address);
+
         newReview.setUserId("noname");
-        log.info("/api/reviews POST request! - {}", newReview);
 
         try{
-            FindAllDTO dto = service.createServ(newReview);
+            FindAllDTO dto = service.createServ(newReview, address);
 
             if(dto == null){
                 return ResponseEntity.notFound().build();
@@ -45,32 +91,32 @@ public class ReviewApiController {
         }
     }
 
-    //리뷰 개별 조회 요청
-    @GetMapping("/{reviewId}")
-    public ResponseEntity<?> review(@PathVariable long reviewId){
-        log.info("api/reviews/{} GET request", reviewId);
+//    //리뷰 개별 조회 요청
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> review(@PathVariable String postId){
+        log.info("api/reviews/{} GET request", postId);
 
-        if(reviewId == 0) return ResponseEntity.badRequest().build();
+        if(postId == null) return ResponseEntity.badRequest().build();
 
-        ReviewDTO dto = service.findOneServ(reviewId);
+        ReviewDTO dto = service.findOneServ(postId);
         if(dto == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok().body(dto);
     }
 
-    //리뷰 삭제 요청
-    @DeleteMapping("/{reviewId}")
-    public ResponseEntity<?> delete(@PathVariable long reviewId){
-        log.info("/api/reviews/{} DELETE request", reviewId);
+//    //리뷰 삭제 요청
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> delete(@PathVariable String postId){
+        log.info("/api/reviews/{} DELETE request", postId);
 
         try{
-            FindAllDTO dtos = service.deleteServ(reviewId);
+            FindAllDTO dtos = service.deleteServ(postId);
             return ResponseEntity.ok().body(dtos);
         }catch (Exception e){
             return ResponseEntity.notFound().build();
         }
     }
-
-    //리뷰 수정 요청
+//
+//    //리뷰 수정 요청
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Review review){
         log.info("/api/reviews PUT request! - {}", review);

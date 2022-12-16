@@ -19,10 +19,10 @@ public interface ReviewRepository {
     List<Review> findAll();
 
     //게시글 개별 조회 기능
-    Review findOne(long reviewId);
+    Review findOne(String reviewId);
 
     //게시글 삭제 기능
-    boolean remove(long reviewId);
+    boolean remove(String  reviewId);
 
     //게시글 수정
     boolean modify(Review review);

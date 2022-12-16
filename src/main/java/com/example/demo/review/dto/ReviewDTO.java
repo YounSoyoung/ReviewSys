@@ -4,22 +4,29 @@ import com.example.demo.review.entity.Category;
 import com.example.demo.review.entity.Review;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Setter @Getter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewDTO { //화면에 보여줄 리뷰 정보
-    private long reviewId;
+    private String postId;
     private String title;
-    private String img;
+    private String image;
     private String content;
+
+    private Date regDate;
+
+    private String cID; //cID는 화면에 안보이도록 바꿔줘야 한다.
 
 
     public ReviewDTO(Review review){
-        this.reviewId = review.getReviewId();
+        this.postId = review.getPostId();
         this.title = review.getTitle();
-        this.img = review.getImg();
+        this.image = review.getImage();
         this.content = review.getContent();
+        this.regDate = review.getRegDate();
+        this.cID = review.getCID();
     }
 }
