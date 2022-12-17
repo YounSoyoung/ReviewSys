@@ -91,6 +91,22 @@ public class ReviewApiController {
         }
     }
 
+
+    //카테고리를 통해 리뷰들 검색
+    @GetMapping("/search/{area}/{address}")
+    public FindAllDTO searchReviews(@PathVariable String area, @PathVariable String address){
+        log.info("/api/reviews/search/{}/{} GET request", area, address);
+
+        if(area == null || address == null){
+            log.warn("{area} or {address} cannot be null");
+            throw new RuntimeException("{area} or {address} cannot be null!");
+        }
+
+        return service.searchReviewsServ(address);
+
+    }
+
+
 //    //리뷰 개별 조회 요청
     @GetMapping("/{postId}")
     public ResponseEntity<?> review(@PathVariable String postId){

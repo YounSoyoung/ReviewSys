@@ -18,6 +18,9 @@ public interface ReviewRepository {
     //게시글 리스트 조회 기능
     List<Review> findAll();
 
+    //카테고리별 게시글 조회 기능
+    List<Review> findReviews(String cID);
+
     //게시글 개별 조회 기능
     Review findOne(String reviewId);
 

@@ -23,6 +23,13 @@
         ORDER BY regDate
     </select>
 
+    <select id="findReviews" resultType="com.example.demo.review.entity.Review">
+        SELECT postId, userId, title, content, image, regDate, cID
+        FROM tbl_post
+        WHERE cID=#{cID}
+        ORDER BY regDate DESC;
+    </select>
+
     <select id="findOne" resultType="com.example.demo.review.entity.Review">
         SELECT postId, userId, title, content, image, regDate, cID
         FROM tbl_post

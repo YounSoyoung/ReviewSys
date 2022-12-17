@@ -32,17 +32,21 @@ public class ReviewService {
             throw new RuntimeException("newReview cannot be null!");
         }
 
-
-//        String cID = category.getCategoryId();
-//  또는 여기서 saveCategoryServ를 실행하기 -> cID 값을 가지는 Category를 받는다.
-        //newReview.setCID(cID);
-
         boolean flag = repository.save(newReview); //repository.save(newReview, c)
 
         if(flag) log.info("새로운 할일 [Id: {}]이 저장되었습니다.", newReview.getPostId());
 
         return flag ? findAllServ() : null; //새로운 리뷰를 삽입한 후 전체 리뷰 목록을 반환
     }
+
+    //////////////카테고리에 해당하는 리뷰 리스트 반환
+    public FindAllDTO searchReviewsServ(String address){
+        Category category = categoryService.findCategoryServ(address);
+        String categoryId = category.getCID();
+
+        return new FindAllDTO(repository.findReviews(categoryId));
+    }
+
 
     public ReviewDTO findOneServ(String postId) {
         Review review = repository.findOne(postId);
