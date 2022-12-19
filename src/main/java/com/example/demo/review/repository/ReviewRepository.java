@@ -22,10 +22,10 @@ public interface ReviewRepository {
     List<Review> findReviews(String cID);
 
     //게시글 개별 조회 기능
-    Review findOne(String reviewId);
+    Review findOne(String postId);
 
     //게시글 삭제 기능
-    boolean remove(String  reviewId);
+    boolean remove(String  postId);
 
     //게시글 수정
     boolean modify(Review review);

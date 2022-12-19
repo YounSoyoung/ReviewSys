@@ -9,20 +9,21 @@ import com.example.demo.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-        import org.springframework.stereotype.Repository;
-        import org.springframework.stereotype.Service;
-        import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping(value = "/api/reviews", produces = "application/json; charset=UTF-8")
+@RequestMapping("/api/reviews")
 @RequiredArgsConstructor
 @CrossOrigin
 public class ReviewApiController {
     private final ReviewService service;
+    //CategoryService도 불러와야한다
     private final CategoryService categoryService;
+
 
     //리뷰 목록 전체 조회 요청
     @GetMapping
@@ -78,6 +79,7 @@ public class ReviewApiController {
         log.info("/api/reviews/{}/{} POST request!", area, address);
 
         newReview.setUserId("noname");
+        log.info("/api/reviews POST request! - {}", newReview);
 
         try{
             FindAllDTO dto = service.createServ(newReview, address);
