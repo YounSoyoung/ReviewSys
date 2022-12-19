@@ -18,11 +18,17 @@
         WHERE email=#{email}
     </select>
 
+    <select id="existByNickname" resultType="boolean">
+        SELECT COUNT(*)
+        FROM tbl_user
+        WHERE nickname=#{nickname}
+    </select>
+
     <insert id="register">
         INSERT INTO tbl_user
         (uId, username, email, password, nickname)
         VALUES
-        (#{id}, #{username}, #{email}, #{password}, #{nickname})
+        (#{uId}, #{username}, #{email}, #{password}, #{nickname})
     </insert>
 
 </mapper>    

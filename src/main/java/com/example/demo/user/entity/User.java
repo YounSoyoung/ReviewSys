@@ -19,6 +19,11 @@ public class User {
     }
 
     public User(UserRequestDTO dto){
+
         this();
+        this.email = dto.getEmail();
+        this.username = dto.getUsername();
+        this.password = dto.getPassword();
+        this.nickname = dto.getNickname();
     }
 }
