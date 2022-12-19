@@ -7,26 +7,26 @@
 
     <select id="findAreaList" resultType="com.example.demo.review.entity.Category">
         SELECT area
-        FROM categoryt
+        FROM tbl_category
         GROUP BY area
     </select>
 
     <select id="showArea" resultType="com.example.demo.review.entity.Category">
         SELECT area
-        FROM categoryt
+        FROM tbl_category
         GROUP BY area
         HAVING area=#{area}
     </select>
 
     <select id="findAddressList" resultType="com.example.demo.review.entity.Category">
         SELECT address
-        FROM categoryt
+        FROM tbl_category
         WHERE area=#{area}
     </select>
 
     <select id="findCategory" resultType="com.example.demo.review.entity.Category">
         SELECT cID, area, address
-        FROM categoryt
+        FROM tbl_category
         WHERE address=#{address}
     </select>
 
