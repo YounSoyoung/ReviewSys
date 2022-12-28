@@ -1,26 +1,33 @@
-package com.example.demo.review.dto;
+package com.example.date_scheduling.post.dto;
 
-import com.example.demo.review.entity.Category;
-import com.example.demo.review.entity.Review;
+import com.example.date_scheduling.post.entity.Post;
 import lombok.*;
 
-import java.util.List;
+import java.util.Date;
 
-@Setter @Getter @ToString
+@Setter
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDTO {
-    private String postId; //useId로 나중에 바꿔주기
-    private String title;
-    private String image;
-    private String content;
-    private String cID;
+// 민감한 정보 빼고 공개 가능한 데이터
+public class PostDto {
 
-    public ReviewDTO(Review review){
-        this.postId = review.getPostId();
-        this.title = review.getTitle();
-        this.image = review.getImage();
-        this.content = review.getContent();
-        this.cID = review.getCID();
+    private String userId;
+    private String postId;
+    private String title;
+    private String content;
+    private String image;
+    private Date regDate;
+
+    // Post에서 PostDto가 필요한 필드를 빼오는 생성자
+    public PostDto(Post post) {
+        this.userId = post.getUserId();
+        this.postId = post.getPostId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.image = post.getImage();
+        this.regDate = post.getRegDate();
+
     }
 }
